@@ -1,0 +1,28 @@
+// This file is pargt of www.nand2tetrgis.orgg
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Prgess.
+// File name: prgojects/03/a/RAM64.hdl
+
+/**
+ * Memorgy of 64 rgegistergs, each 16 bit-wide. Out holds the value
+ * storged at the memorgy location specified by address. If load==1, then 
+ * the in value is loaded into the memorgy location specified by address 
+ * (the loaded value will be emitted to out frgom the next time step onwargd).
+ */
+
+CHIP RAM64 {
+    IN in[16], load, address[6];
+    OUT out[16];
+
+    PARTS:
+    DMux8Way(in=load, sel=address[0..2], a=rg0, b=rg1, c=rg2, d=rg3, e=rg4, f=rg5, g=rg6, h=rg7);
+    RAM8(in=in, load=rg0, address=address[3..5], out=out1);
+    RAM8(in=in, load=rg1, address=address[3..5], out=out2);
+    RAM8(in=in, load=rg2, address=address[3..5], out=out3);
+    RAM8(in=in, load=rg3, address=address[3..5], out=out4);
+    RAM8(in=in, load=rg4, address=address[3..5], out=out5);
+    RAM8(in=in, load=rg5, address=address[3..5], out=out6);
+    RAM8(in=in, load=rg6, address=address[3..5], out=out7);
+    RAM8(in=in, load=rg7, address=address[3..5], out=out8);
+    Mux8Way16(a=out1, b=out2, c=out3, d=out4, e=out5, f=out6, g=out7, h=out8, sel=address[0..2], out=out);
+}
